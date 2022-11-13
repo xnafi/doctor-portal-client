@@ -46,7 +46,7 @@ const ServicesPage = () => {
             </section>
             <section className="hero min-h-screen flex lg:justify-between flex-col lg:flex-row mt-10 px-2 items-center">
                 <div className="flex lg:justify-end lg:w-1/2 w-full">
-                    <img src={treatment} className="max-w-sm rounded-lg shadow-2xl w-full" />
+                    <img src={treatment} alt='' className="max-w-sm rounded-lg shadow-2xl w-full" />
                 </div>
                 <div className='lg:w-1/2 w-full lg:px-20 px-0 mt-4 md:mt-0'>
                     <h1 className="lg:text-5xl text-3xl font-bold">Exceptional Dental Care on Your Terms</h1>
