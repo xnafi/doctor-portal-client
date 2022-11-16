@@ -1,7 +1,6 @@
 import React from 'react'
 import bg from '../../assets/images/bg.png'
 import chair from '../../assets/images/chair.png'
-import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 
 const AppoinmentBanner = ({ selected, setSelected }) => {
@@ -17,7 +16,6 @@ const AppoinmentBanner = ({ selected, setSelected }) => {
                         selected={selected}
                         onSelect={setSelected}
                     />
-                    <p>You picked {format(selected, 'PP')}.</p>
                 </div>
                 <div className="flex items-center justify-center mt-8 lg:mt-0 lg:w-1/2 w-full">
                     <img src={chair} alt="" className="object-contain" />

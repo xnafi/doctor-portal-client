@@ -8,10 +8,10 @@ const ServiceCard = ({ chooseService, setTreatment }) => {
                 <h2 className="text-2xl text-secondary font-bold text-center">{name}</h2>
                 <p className='font-semibold'>
                     {
-                        slots.length === 0 && <p>try another day</p>
+                        slots.length === 0 && <span>try another day</span>
                     }
                 </p>
-                <p className='font-semibold'> {slots.length} available </p>
+                <p className='font-semibold'> {slots.length} {slots.length > 0 ? 'spaces' : 'space'   } available </p>
                 <div className="card-actions justify-center">
                     <label
                         disabled={slots.length === 0}

@@ -1,14 +1,31 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 const NavBar = () => {
+
+    const { user, logOut } = useContext(AuthContext)
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                Swal.fire('Logout successful')
+            })
+    }
     const menuItem =
         <>
             <li className='hover:underline underline-offset-4 font-semibold'><Link to='/'>Home</Link></li>
             <li className='hover:underline underline-offset-4 font-semibold'><Link to='/about'>About</Link></li>
             <li className='hover:underline underline-offset-4 font-semibold'><Link to='/appoinment'>Appoinment</Link></li>
             <li className='hover:underline underline-offset-4 font-semibold'><Link to='/reviews'>Reviews</Link></li>
-            <li className='hover:underline underline-offset-4 font-semibold'><Link to='/login'>Login</Link></li>
+            {
+
+                user && user.uid ? <li className='hover:underline underline-offset-4 font-semibold' onClick={handleLogOut}><Link>Logout</Link></li> :
+                    <>
+                        <li className='hover:underline underline-offset-4 font-semibold'><Link to='/login'>Login</Link></li>
+                        <li className='hover:underline underline-offset-4 font-semibold'><Link to='/signup'>Sign up</Link></li>
+                    </>
+            }
         </>
     return (
         <div className="navbar flex justify-between">
@@ -23,7 +40,7 @@ const NavBar = () => {
                         }
                     </ul>
                 </div>
-                <Link to='/'> <h1  className='md:text-xl text-sm text-black font-extrabold'>DOCTORS PORTAL</h1> </Link>
+                <Link to='/'> <h1 className='md:text-xl text-sm text-black font-extrabold'>DOCTORS PORTAL</h1> </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">

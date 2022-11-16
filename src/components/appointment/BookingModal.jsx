@@ -1,8 +1,11 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
+import Swal from 'sweetalert2';
+import { AuthContext } from '../../contexts/AuthProvider';
 
-const BookingModal = ({ treatment, setTreatment, selected }) => {
+const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
     // treatment is just another name of appointmentOptions with name, slots, _id
+    const { user } = useContext(AuthContext)
     const { name, slots } = treatment;
     const date = format(selected, 'PP');
 
@@ -13,10 +16,9 @@ const BookingModal = ({ treatment, setTreatment, selected }) => {
         const name = form.name.value;
         const email = form.email.value;
         const phone = form.phone.value;
-        // [3, 4, 5].map((value, i) => console.log(value))
         const booking = {
             appointmentDate: date,
-            treatment: name,
+            treatment: treatment.name,
             patient: name,
             slot,
             email,
@@ -26,8 +28,25 @@ const BookingModal = ({ treatment, setTreatment, selected }) => {
         // TODO: send data to the server
         // and once data is saved then close the modal 
         // and display success toast
-        console.log(booking);
-        setTreatment(null);
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(booking)
+        })
+            .then(data => {
+                if (data.acknowledged) {
+                    Swal.fire('Appoinment recived')
+                    refetch()
+                    setTreatment(null);
+                } else{
+                    Swal.fire('one book for a day')
+                }
+
+
+
+            })
+            .catch(er => Swal.fire(er.message))
+
     }
 
     return (
@@ -47,8 +66,8 @@ const BookingModal = ({ treatment, setTreatment, selected }) => {
                                 >{slot}</option>)
                             }
                         </select>
-                        <input name="name" type="text" required placeholder="Your Name" className="input w-full input-bordered" />
-                        <input name="email" type="email" required placeholder="Email Address" className="input w-full input-bordered" />
+                        <input name="name" defaultValue={user?.displayName} type="text" required placeholder="Your Name" className="input w-full input-bordered" />
+                        <input name="email" defaultValue={user?.email} type="email" required placeholder="Email Address" className="input w-full input-bordered" />
                         <input name="phone" type="text" required placeholder="Phone Number" className="input w-full input-bordered" />
                         <br />
                         <input className='btn btn-accent w-full' type="submit" value="Submit" />
