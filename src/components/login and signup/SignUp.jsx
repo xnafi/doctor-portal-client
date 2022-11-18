@@ -1,9 +1,11 @@
 import { GoogleAuthProvider } from 'firebase/auth'
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../../contexts/AuthProvider'
+import useToken from '../../hooks/useToken'
+
 
 const SignUp = () => {
 
@@ -11,6 +13,15 @@ const SignUp = () => {
     const { createUser, updateInfo, googleSignIn } = useContext(AuthContext)
     const googleProvider = new GoogleAuthProvider()
     const { register, handleSubmit, reset } = useForm();
+    const location = useLocation()
+    const navigate = useNavigate()
+    const form = location.state?.from?.pathname || '/'
+    const [newUser, setNewUser] = useState('')
+    const [token] = useToken(newUser)
+
+    if (token) {
+        navigate(form, { replace: true })
+    }
 
     const handleSignIn = (data) => {
         setError('')
@@ -18,11 +29,13 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user
                 console.log(user);
+                insertUser(data.name, data.email)
                 updateInfo(data.name, data.photoUrl)
                     .then(() => { })
                     .catch(er => setError(er))
                 Swal.fire('Account Create Successfull')
                 reset()
+
             })
             .catch(er => {
                 setError(er.message)
@@ -35,13 +48,35 @@ const SignUp = () => {
                 console.log(result.user);
                 Swal.fire('Login Successfull')
                 setError('')
+                insertUser(result.user.name,result.user.email)
+                navigate(form, { replace: true })
                 reset()
+
             })
             .catch(er => {
                 setError(er.message)
                 console.log(er.message);
             })
     }
+
+
+    const insertUser = (name, email) => {
+        const user = { name, email }
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setNewUser(email)
+            })
+
+    }
+
+
+
 
     return (
         <div className='h-full w-full flex justify-center items-start'>

@@ -33,17 +33,17 @@ const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(booking)
         })
+            .then(res => res.json())
             .then(data => {
+                console.log(data);
                 if (data.acknowledged) {
                     Swal.fire('Appoinment recived')
                     refetch()
                     setTreatment(null);
-                } else{
-                    Swal.fire('one book for a day')
+                }  
+                else{
+                    Swal.fire('one appoinment for a day')
                 }
-
-
-
             })
             .catch(er => Swal.fire(er.message))
 
@@ -66,8 +66,8 @@ const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
                                 >{slot}</option>)
                             }
                         </select>
-                        <input name="name" defaultValue={user?.displayName} type="text" required placeholder="Your Name" className="input w-full input-bordered" />
-                        <input name="email" defaultValue={user?.email} type="email" required placeholder="Email Address" className="input w-full input-bordered" />
+                        <input name="name" defaultValue={user?.displayName} readOnly type="text" required placeholder="Your Name" className="input w-full input-bordered" />
+                        <input name="email" defaultValue={user?.email} readOnly type="email" required placeholder="Email Address" className="input w-full input-bordered" />
                         <input name="phone" type="text" required placeholder="Phone Number" className="input w-full input-bordered" />
                         <br />
                         <input className='btn btn-accent w-full' type="submit" value="Submit" />

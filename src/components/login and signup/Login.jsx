@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../../contexts/AuthProvider';
 import { GoogleAuthProvider } from 'firebase/auth';
 import Swal from 'sweetalert2';
+import useToken from '../../hooks/useToken';
 
 const Login = () => {
 
@@ -11,13 +12,22 @@ const Login = () => {
     const { signInUser, googleSignIn } = useContext(AuthContext)
     const googleProvider = new GoogleAuthProvider()
     const { register, handleSubmit, resetField } = useForm();
+    const location = useLocation()
+    const navigate = useNavigate()
+    const form = location.state?.from?.pathname || '/'
+    const [loginUserEmail, setLoginUserEmail] = useState('')
+    const [token] = useToken(loginUserEmail)
+
+    if (token) {
+        navigate(form, { replace: true })
+    }
 
     const handleLogin = (data) => {
         setError('')
         signInUser(data.email, data.password)
             .then(result => {
-                const user = result.user
                 Swal.fire('Login Successfull')
+                setLoginUserEmail(data.email)
                 resetField()
             })
             .catch(er => {
@@ -30,6 +40,7 @@ const Login = () => {
         googleSignIn(googleProvider)
             .then(result => {
                 Swal.fire('Login Successfull')
+                navigate(form, { replace: true })
             })
             .catch(er => {
                 setError(er.message)
@@ -45,7 +56,7 @@ const Login = () => {
                 <form onSubmit={handleSubmit(handleLogin)} action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
                     <div className="space-y-1 text-sm">
                         <label htmlFor="username" className="block dark:text-gray-400">Email</label>
-                        <input type="email" {...register("eamil", { required: true })} placeholder="Email" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400" />
+                        <input type="email" {...register("email", { required: true })} placeholder="Email" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400" />
                     </div>
                     <div className="space-y-1 text-sm">
                         <label htmlFor="password" className="block dark:text-gray-400">Password</label>
