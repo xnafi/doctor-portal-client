@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../contexts/AuthProvider';
 
@@ -29,7 +30,7 @@ const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
         // TODO: send data to the server
         // and once data is saved then close the modal 
         // and display success toast
-        fetch('http://localhost:5000/bookings', {
+        fetch('https://doctor-portal-server-ivory.vercel.app/bookings', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(booking)
@@ -70,7 +71,10 @@ const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
                         <input name="email" defaultValue={user?.email} readOnly type="email" required placeholder="Email Address" className="input w-full input-bordered" />
                         <input name="phone" type="text" required placeholder="Phone Number" className="input w-full input-bordered" />
                         <br />
-                        <input className='btn btn-accent w-full' type="submit" value="Submit" />
+                        {
+                            user ? <input className='btn btn-accent w-full' type="submit" value="Submit" /> : <Link to="/login" className='btn btn-accent w-full'>Please Login First</Link>
+                        
+                        }
                     </form>
                 </div>
             </div>

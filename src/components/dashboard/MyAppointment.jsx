@@ -2,13 +2,14 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthProvider'
+import Loading from '../shared/Loading'
 
 const MyAppointment = () => {
     const { user } = useContext(AuthContext)
-    const { data: MyAppointments = [] } = useQuery({
+    const { data: MyAppointments = [], isLoading } = useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/bookings?email=${user?.email}`, {
+            const res = await fetch(`https://doctor-portal-server-ivory.vercel.app/bookings?email=${user?.email}`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('token')}`
                 }
@@ -18,7 +19,9 @@ const MyAppointment = () => {
         }
     })
 
-
+    if (isLoading) {
+        return <Loading />
+    }
     return (
         <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
             <h2 className="mb-4 text-2xl font-semibold leading-tight">My Appointments</h2>

@@ -7,14 +7,14 @@ const AllUsers = () => {
   const { data: loadUser = [], refetch } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const res = await fetch('http://localhost:5000/users')
+      const res = await fetch('https://doctor-portal-server-ivory.vercel.app/users')
       const data = await res.json()
       return data
     }
   })
 
   const handleDeleteUser = (id) => {
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`https://doctor-portal-server-ivory.vercel.app/users/${id}`, {
       method: 'delete',
       headers: {
         authorization: `bearer ${localStorage.getItem('token')}`
@@ -33,7 +33,7 @@ const AllUsers = () => {
 
   const makeAdmin = (id) => {
 
-    fetch(`http://localhost:5000/users/admin/${id}`, {
+    fetch(`https://doctor-portal-server-ivory.vercel.app/users/admin/${id}`, {
       method: 'put',
       headers: {
         authorization: `bearer ${localStorage.getItem('token')}`

@@ -14,7 +14,7 @@ const ManageDoctors = () => {
     const { data: doctorsData = [], isLoading, refetch } = useQuery({
         queryKey: ['doctors'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/doctors`, {
+            const res = await fetch(`https://doctor-portal-server-ivory.vercel.app/doctors`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('token')}`
                 }
@@ -26,7 +26,7 @@ const ManageDoctors = () => {
 
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:5000/doctors/${id._id}`, {
+        fetch(`https://doctor-portal-server-ivory.vercel.app/doctors/${id._id}`, {
             method: 'delete',
             headers: {
                 authorization: `bearer ${localStorage.getItem('token')}`

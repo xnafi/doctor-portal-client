@@ -9,13 +9,13 @@ import useToken from '../../hooks/useToken';
 const Login = () => {
 
     const [error, setError] = useState('')
-    const { signInUser, googleSignIn, logOut } = useContext(AuthContext)
+    const { signInUser, googleSignIn } = useContext(AuthContext)
     const googleProvider = new GoogleAuthProvider()
     const { register, handleSubmit, resetField } = useForm();
     const location = useLocation()
     const navigate = useNavigate()
     const form = location.state?.from?.pathname || '/'
-    const [loginUserEmail, setLoginUserEmail] = useState('')
+    const [loginUserEmail, setLoginUserEmail] = useState(null)
     const [token] = useToken(loginUserEmail)
 
     if (token) {
@@ -27,7 +27,7 @@ const Login = () => {
         signInUser(data.email, data.password)
             .then(result => {
                 Swal.fire('Login Successfull')
-                setLoginUserEmail(data.email)
+                setLoginUserEmail(data)
                 resetField()
             })
             .catch(er => {
@@ -40,14 +40,17 @@ const Login = () => {
         googleSignIn(googleProvider)
             .then(result => {
                 Swal.fire('Login Successfull')
-                navigate(form, { replace: true })
+                const tokenUser = result?.user
+                setLoginUserEmail(tokenUser)
             })
             .catch(er => {
                 setError(er.message)
                 console.log(er.message);
-                logOut()
+                // logOut()
             })
     }
+    console.log("🚀 ~ file: Login.jsx ~ line 54 ~ Login ~ user", loginUserEmail)
+
 
     return (
         <div className='h-full w-full flex justify-center items-start'>

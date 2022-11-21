@@ -14,7 +14,7 @@ function Appointment() {
     const { data: chooseServices = [], refetch, isLoading } = useQuery(
         {
             queryKey: ['appointmentOptions', date],
-            queryFn: () => fetch(`http://localhost:5000/appointmentOptions?date=${date}`).then(res => res.json())
+            queryFn: () => fetch(`https://doctor-portal-server-ivory.vercel.app/appointmentOptions?date=${date}`).then(res => res.json())
         }
     )
     if (isLoading) {

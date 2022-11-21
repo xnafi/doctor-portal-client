@@ -10,12 +10,12 @@ const NavBar = () => {
         logOut()
             .then(() => {
                 Swal.fire('Logout successful')
+                localStorage.removeItem('token')
             })
     }
     const menuItem =
         <>
             <li className='hover:underline underline-offset-4 font-semibold'><Link to='/'>Home</Link></li>
-            <li className='hover:underline underline-offset-4 font-semibold'><Link to='/about'>About</Link></li>
             <li className='hover:underline underline-offset-4 font-semibold'><Link to='/appoinment'>Appoinment</Link></li>
             {
 
