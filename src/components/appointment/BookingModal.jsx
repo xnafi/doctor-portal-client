@@ -6,7 +6,7 @@ import { AuthContext } from '../../contexts/AuthProvider';
 const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
     // treatment is just another name of appointmentOptions with name, slots, _id
     const { user } = useContext(AuthContext)
-    const { name, slots } = treatment;
+    const { name, slots, price } = treatment;
     const date = format(selected, 'PP');
 
     const handleBooking = event => {
@@ -23,6 +23,7 @@ const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
             slot,
             email,
             phone,
+            price
         }
 
         // TODO: send data to the server
@@ -35,13 +36,12 @@ const BookingModal = ({ treatment, setTreatment, selected, refetch }) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 if (data.acknowledged) {
                     Swal.fire('Appoinment recived')
                     refetch()
                     setTreatment(null);
-                }  
-                else{
+                }
+                else {
                     Swal.fire('one appoinment for a day')
                 }
             })

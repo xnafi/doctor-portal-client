@@ -3,6 +3,7 @@ import React from 'react'
 import Swal from 'sweetalert2'
 
 const AllUsers = () => {
+
   const { data: loadUser = [], refetch } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
@@ -11,12 +12,31 @@ const AllUsers = () => {
       return data
     }
   })
+
+  const handleDeleteUser = (id) => {
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: 'delete',
+      headers: {
+        authorization: `bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.acknowledged) {
+          Swal.fire('Successfully deleted')
+          refetch()
+        }
+      })
+    console.log(id);
+  }
+
+
   const makeAdmin = (id) => {
 
     fetch(`http://localhost:5000/users/admin/${id}`, {
       method: 'put',
-      headers : {
-        authorization : `bearer ${localStorage.getItem('token')}`
+      headers: {
+        authorization: `bearer ${localStorage.getItem('token')}`
       }
     })
       .then(res => res.json())
@@ -26,7 +46,6 @@ const AllUsers = () => {
           Swal.fire('set as admin')
           refetch()
         }
-        console.log(data);
       })
 
   }
@@ -65,7 +84,7 @@ const AllUsers = () => {
 
                   </td>
                   <td className="p-3 ">
-                    <p><button className='btn btn-sm'>Delete</button></p>
+                    <p><button onClick={() => handleDeleteUser(user._id)} className='btn btn-sm'>Delete</button></p>
                   </td>
 
                 </tr>

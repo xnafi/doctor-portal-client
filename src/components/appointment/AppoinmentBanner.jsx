@@ -4,6 +4,7 @@ import chair from '../../assets/images/chair.png'
 import { DayPicker } from 'react-day-picker';
 
 const AppoinmentBanner = ({ selected, setSelected }) => {
+
     return (
         <section className="dark:bg-gray-800 dark:text-gray-100"
             style={{ backgroundImage: `url(${bg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'contain' }}
@@ -14,7 +15,11 @@ const AppoinmentBanner = ({ selected, setSelected }) => {
                         className='bg-white shadow-xl p-2 rounded-lg'
                         mode="single"
                         selected={selected}
-                        onSelect={setSelected}
+                        onSelect={(data) => {
+                            if (data) {
+                                setSelected(data)
+                            }
+                        }}
                     />
                 </div>
                 <div className="flex items-center justify-center mt-8 lg:mt-0 lg:w-1/2 w-full">

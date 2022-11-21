@@ -9,7 +9,7 @@ import useToken from '../../hooks/useToken';
 const Login = () => {
 
     const [error, setError] = useState('')
-    const { signInUser, googleSignIn } = useContext(AuthContext)
+    const { signInUser, googleSignIn, logOut } = useContext(AuthContext)
     const googleProvider = new GoogleAuthProvider()
     const { register, handleSubmit, resetField } = useForm();
     const location = useLocation()
@@ -45,6 +45,7 @@ const Login = () => {
             .catch(er => {
                 setError(er.message)
                 console.log(er.message);
+                logOut()
             })
     }
 

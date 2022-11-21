@@ -27,8 +27,6 @@ const SignUp = () => {
         setError('')
         createUser(data.email, data.password)
             .then(result => {
-                const user = result.user
-                console.log(user);
                 insertUser(data.name, data.email)
                 updateInfo(data.name, data.photoUrl)
                     .then(() => { })
@@ -45,7 +43,6 @@ const SignUp = () => {
     const handleGoogleLogin = () => {
         googleSignIn(googleProvider)
             .then(result => {
-                console.log(result.user);
                 Swal.fire('Login Successfull')
                 setError('')
                 insertUser(result.user.name,result.user.email)
@@ -69,7 +66,6 @@ const SignUp = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 setNewUser(email)
             })
 

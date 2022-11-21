@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthProvider'
 
 const MyAppointment = () => {
@@ -17,6 +18,7 @@ const MyAppointment = () => {
         }
     })
 
+
     return (
         <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
             <h2 className="mb-4 text-2xl font-semibold leading-tight">My Appointments</h2>
@@ -29,6 +31,7 @@ const MyAppointment = () => {
                             <th className="p-3">Treatment</th>
                             <th className="p-3">Appointment Date</th>
                             <th className="p-3 ">Time</th>
+                            <th className="p-3 ">Payment status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,20 +50,25 @@ const MyAppointment = () => {
                                     </td>
                                     <td className="p-3">
                                         <p>{appointment.appointmentDate}</p>
-
                                     </td>
                                     <td className="p-3 ">
                                         <p>{appointment.slot}</p>
                                     </td>
-
+                                    <td className="p-3">
+                                        {
+                                            appointment.price && !appointment.paid && <Link Link to={`/dashboard/payment/${appointment._id}`} className='btn btn-xs btn-red-500'>PAY</Link>
+                                        }
+                                        {
+                                            appointment.price && appointment.paid && <span className='bg-transparent-red-500 text-bold'>PAID</span>
+                                        }
+                                    </td>
                                 </tr>
                             )
                         }
                     </tbody>
-
                 </table>
             </div>
-        </div>
+        </div >
     )
 }
 

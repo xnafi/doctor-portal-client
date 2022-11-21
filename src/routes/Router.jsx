@@ -1,7 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import Appointment from "../components/appointment/Appointment";
+import AddDoctor from "../components/dashboard/AddDoctor";
 import AllUsers from "../components/dashboard/AllUsers";
+import ManageDoctors from "../components/dashboard/ManageDoctors";
 import MyAppointment from "../components/dashboard/MyAppointment";
+import Payment from "../components/dashboard/Payment";
 import HomePage from "../components/HomePage/HomePage";
 import Login from "../components/login and signup/Login";
 import SignUp from "../components/login and signup/SignUp";
@@ -47,7 +50,20 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/users',
-                element:<AdminRoutes><AllUsers /></AdminRoutes> 
+                element: <AdminRoutes><AllUsers /></AdminRoutes>
+            },
+            {
+                path: '/dashboard/adddoctor',
+                element: <AdminRoutes><AddDoctor /></AdminRoutes>
+            },
+            {
+                path: '/dashboard/managedoctor',
+                element: <AdminRoutes><ManageDoctors /></AdminRoutes>
+            },
+            {
+                path: '/dashboard/payment/:id',
+                loader: ({ params }) => fetch(`http://localhost:5000/bookings/${params.id}`),
+                element: <AdminRoutes><Payment /></AdminRoutes>
             },
         ]
     }
