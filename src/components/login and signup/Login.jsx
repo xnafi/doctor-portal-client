@@ -53,8 +53,8 @@ const Login = () => {
 
 
     return (
-        <div className='h-full w-full flex justify-center items-start'>
-            <div className="p-4 space-y-2 rounded-xl dark:bg-gray-900 dark:text-gray-100 shadow-xl lg:my-20 my-10">
+        <div className='h-full w-full flex justify-center items-start px-2'>
+            <div className="p-4 md space-y-2 rounded-xl dark:bg-gray-900 dark:text-gray-100 shadow-xl lg:my-20 my-10 w-full h-full md:w-1/3 md:p-6">
                 <h1 className="text-2xl font-bold text-center my-2">Login</h1>
                 <h1 className="text-sm text-red-600 animate-pulse font-bold text-center my-4">{error}</h1>
                 <form onSubmit={handleSubmit(handleLogin)} action="" className="space-y-6 ng-untouched ng-pristine ng-valid">

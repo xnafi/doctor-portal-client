@@ -45,7 +45,8 @@ const SignUp = () => {
             .then(result => {
                 Swal.fire('Login Successfull')
                 setError('')
-                insertUser(result.user.name,result.user.email)
+                const name = result.user.name ? result.user.name : 'New user'
+                insertUser(name, result.user.email)
                 navigate(form, { replace: true })
                 reset()
 
@@ -75,8 +76,8 @@ const SignUp = () => {
 
 
     return (
-        <div className='h-full w-full flex justify-center items-start'>
-            <div className="p-4 space-y-2 rounded-xl dark:bg-gray-900 dark:text-gray-100 shadow-xl lg:my-20 my-10">
+        <div className='h-full w-full flex justify-center items-start px-2'>
+            <div className="p-4 space-y-2 rounded-xl dark:bg-gray-900 dark:text-gray-100 shadow-xl lg:my-20 my-10 w-full h-full md:w-1/3 md:p-6">
                 <h1 className="text-2xl font-bold text-center my-2">Sign Up</h1>
                 <h1 className="text-sm text-red-600 animate-pulse font-bold text-center my-4">{error}</h1>
                 <form onSubmit={handleSubmit(handleSignIn)} action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
@@ -99,7 +100,7 @@ const SignUp = () => {
                             <Link rel="noopener noreferrer" className='text-left'>Forgot Password?</Link>
                         </div>
                     </div>
-                    <button type="submit" className="block w-full p-3 bg-accent text-white text-center rounded-xl dark:text-gray-900 dark:bg-violet-400">Login</button>
+                    <button type="submit" className="block w-full p-3 bg-accent text-white text-center rounded-xl dark:text-gray-900 dark:bg-violet-400">Sign up</button>
                 </form>
                 <div className="flex items-center pt-4 space-x-1">
                     <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
