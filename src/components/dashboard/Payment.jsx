@@ -9,7 +9,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 const Payment = () => {
     const paymentDetails = useLoaderData()
     return (
-        <div>
+        <div className='px-2'>
             <h2 className='text-2xl font-bold'>Payment for {paymentDetails.treatment}</h2>
             <h2 className='text-xl font-semibold'>Please pay {paymentDetails.price} for your appoinment</h2>
             <div className='md:w-1/2 w-full'>
