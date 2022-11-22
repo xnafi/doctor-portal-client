@@ -3,7 +3,7 @@ import React from 'react'
 const ServiceCard = ({ chooseService, setTreatment }) => {
     const { name, slots,price } = chooseService
     return (
-        <div className="card shadow-xl">
+        <div className="card shadow-xl ">
             <div className="card-body text-center">
                 <h2 className="text-2xl text-secondary font-bold text-center">{name}</h2>
                 <p className='font-semibold'>
