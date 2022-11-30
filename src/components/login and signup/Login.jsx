@@ -27,7 +27,7 @@ const Login = () => {
         signInUser(data.email, data.password)
             .then(result => {
                 Swal.fire('Login Successfull')
-                setLoginUserEmail(data)
+                setLoginUserEmail(data.email)
                 resetField()
             })
             .catch(er => {
@@ -40,7 +40,7 @@ const Login = () => {
         googleSignIn(googleProvider)
             .then(result => {
                 Swal.fire('Login Successfull')
-                const tokenUser = result?.user
+                const tokenUser = result?.user?.email
                 setLoginUserEmail(tokenUser)
             })
             .catch(er => {

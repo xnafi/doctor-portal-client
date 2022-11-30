@@ -16,7 +16,7 @@ const SignUp = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const form = location.state?.from?.pathname || '/'
-    const [newUser, setNewUser] = useState('')
+    const [newUser, setNewUser] = useState(null)
     const [token] = useToken(newUser)
 
     if (token) {
@@ -29,7 +29,9 @@ const SignUp = () => {
             .then(result => {
                 insertUser(data.name, data.email)
                 updateInfo(data.name, data.photoUrl)
-                    .then(() => { })
+                    .then(() => {
+                        setNewUser(data.email)
+                    })
                     .catch(er => setError(er))
                 Swal.fire('Account Create Successfull')
                 reset()
@@ -46,7 +48,7 @@ const SignUp = () => {
                 Swal.fire('Login Successfull')
                 setError('')
                 const name = result.user.name ? result.user.name : 'New user'
-                insertUser(name, result.user.email)
+                insertUser(name, result?.user?.email)
                 navigate(form, { replace: true })
                 reset()
 

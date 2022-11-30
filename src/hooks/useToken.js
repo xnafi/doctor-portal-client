@@ -3,11 +3,11 @@ import { useContext, useEffect, useState } from "react"
 
 
 
-const useToken = (user) => {
+const useToken = (email) => {
     const [token, setToken] = useState('')
     useEffect(() => {
-        if (user?.email) {
-            fetch(`https://doctor-portal-server-ivory.vercel.app/jwt?email=${user?.email}`)
+        if (email) {
+            fetch(`https://doctor-portal-server-ivory.vercel.app/jwt?email=${email}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data?.accessToken) {
@@ -16,7 +16,7 @@ const useToken = (user) => {
                     }
                 })
         }
-    }, [user?.email])
+    }, [email])
     return [token]
 
 }
